@@ -1,21 +1,17 @@
 # frozen_string_literal: true
 
-# name: discourse-plugin-name
-# about: TODO
-# meta_topic_id: TODO
+# name: discourse-login-client
+# about: Test plugin
+# meta_topic_id: N/A
 # version: 0.0.1
 # authors: Discourse
 # url: TODO
-# required_version: 2.7.0
+# required_version: 3.3.0
 
-enabled_site_setting :plugin_name_enabled
+require_relative "lib/discourse_login_client_authenticator"
 
-module ::MyPluginModule
-  PLUGIN_NAME = "discourse-plugin-name"
-end
+enabled_site_setting :discourse_login_client_enabled
 
-require_relative "lib/my_plugin_module/engine"
-
-after_initialize do
-  # Code which should run after Rails has finished booting
-end
+auth_provider title_setting: "discourse_login_client_button_title",
+              icon: "fab-discourse",
+              authenticator: DiscourseLoginClientAuthenticator.new
