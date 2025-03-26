@@ -1,5 +1,5 @@
-# **Plugin Name** Plugin
+# **Discourse Login Client** Plugin
 
 **Plugin Summary**
 
-For more information, please see: **url to meta topic**
+Test plugin for unified login.

@@ -3,7 +3,8 @@ en:
     admin:
       site_settings:
         categories:
-          TODO_plugin_name: "Plugin Name"
+          discourse_login_client_enabled: "Discourse Login Client"
   js:
-    discourse_plugin_name:
-      placeholder: placeholder
+    login:
+      discourse_login:
+        name: "Discourse Login"

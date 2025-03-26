@@ -1,4 +1,21 @@
-TODO_plugin_name:
-  plugin_name_enabled:
+plugins:
+  discourse_login_client_enabled:
     default: false
-    client: true
+    client: false
+  discourse_login_client_id:
+    default: ""
+    client: false
+  discourse_login_client_secret:
+    default: ""
+    client: false
+    secret: true
+  discourse_login_debug_auth:
+    default: false
+    client: false
+  discourse_login_client_button_title:
+    default: "Discourse Login"
+    client: false
+  discourse_login_client_url:
+    default: ""
+    hidden: true
+    client: false
