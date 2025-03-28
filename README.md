@@ -1,5 +1,5 @@
-# **Discourse Login Client** Plugin
+# Discourse Login Client Plugin
 
-**Plugin Summary**
+Test plugin for Discourse login authenticator. **For development purposes only**
 
-Test plugin for unified login.
+Please do not install in a production environment!
