@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-if SiteSetting.discourse_login_client_id.present? || SiteSetting.discourse_login_client_secret.present?
-   puts "❌ Discourse Login already configured."
-   exit
+if SiteSetting.discourse_login_client_id.present? ||
+     SiteSetting.discourse_login_client_secret.present?
+  puts "❌ Discourse Login already configured."
+  exit
 end
 
 if GlobalSetting.discourse_login_api_key.blank?
@@ -13,7 +14,11 @@ end
 require "json"
 require "net/http"
 
-uri = URI.join(SiteSetting.discourse_login_client_url.presence || "https://logindemo.discourse.group", "/register.json")
+uri =
+  URI.join(
+    SiteSetting.discourse_login_client_url.presence || "https://logindemo.discourse.group",
+    "/register.json",
+  )
 
 http = Net::HTTP.new(uri.host, uri.port)
 http.use_ssl = true
@@ -22,7 +27,10 @@ request = Net::HTTP::Post.new(uri.path)
 request["Accept"] = "application/json"
 request["Content-Type"] = "application/json"
 request["Discourse-Login-Api-Key"] = GlobalSetting.discourse_login_api_key
-request.body = { client_name: SiteSetting.title, redirect_uri: "#{Discourse.base_url}/auth/discourse_login/callback" }.to_json
+request.body = {
+  client_name: SiteSetting.title,
+  redirect_uri: "#{Discourse.base_url}/auth/discourse_login/callback",
+}.to_json
 
 response = http.request(request)
 result = JSON.parse(response.body)
