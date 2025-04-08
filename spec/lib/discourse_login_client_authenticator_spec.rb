@@ -109,7 +109,6 @@ describe DiscourseLoginClientAuthenticator do
       user_info = strategy.info
 
       expect(user_info[:username]).to eq("test_user")
-      expect(user_info[:name]).to eq("test_user")
       expect(user_info[:email]).to eq("test@example.com")
       expect(user_info[:image]).to eq("http://example.com/avatar.png")
     end

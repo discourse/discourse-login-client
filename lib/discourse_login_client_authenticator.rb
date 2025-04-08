@@ -16,7 +16,6 @@ class DiscourseLoginClientAuthenticator < Auth::ManagedAuthenticator
     info do
       {
         username: access_token.params["info"]["username"],
-        name: access_token.params["info"]["username"],
         email: access_token.params["info"]["email"],
         image: access_token.params["info"]["image"],
       }
