@@ -16,9 +16,8 @@ class DiscourseLoginClientAuthenticator < Auth::ManagedAuthenticator
     info do
       {
         username: access_token.params["info"]["username"],
-        name: access_token.params["info"]["username"],
         email: access_token.params["info"]["email"],
-        # image: for avatar?
+        image: access_token.params["info"]["image"],
       }
     end
 
@@ -64,7 +63,7 @@ class DiscourseLoginClientAuthenticator < Auth::ManagedAuthenticator
   end
 
   def enabled?
-    SiteSetting.discourse_login_client_enabled && SiteSetting.discourse_login_client_id &&
-      SiteSetting.discourse_login_client_secret
+    SiteSetting.discourse_login_client_enabled && SiteSetting.discourse_login_client_id.present? &&
+      SiteSetting.discourse_login_client_secret.present?
   end
 end
