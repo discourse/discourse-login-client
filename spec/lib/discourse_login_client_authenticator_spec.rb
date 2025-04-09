@@ -85,36 +85,38 @@ describe DiscourseLoginClientAuthenticator do
       expect(strategy.options.authorize_options).to include(:scope)
     end
 
-    it "extracts uid from access_token" do
-      access_token =
-        instance_double("OAuth2::AccessToken", params: { "info" => { "uuid" => "12345" } })
-      allow(strategy).to receive(:access_token).and_return(access_token)
-      expect(strategy.uid).to eq("12345")
-    end
-
-    it "extracts user info from access_token" do
-      access_token =
-        instance_double(
-          "OAuth2::AccessToken",
-          params: {
-            "info" => {
-              "username" => "test_user",
-              "email" => "test@example.com",
-              "image" => "http://example.com/avatar.png",
-            },
-          },
-        )
-      allow(strategy).to receive(:access_token).and_return(access_token)
-
-      user_info = strategy.info
-
-      expect(user_info[:username]).to eq("test_user")
-      expect(user_info[:email]).to eq("test@example.com")
-      expect(user_info[:image]).to eq("http://example.com/avatar.png")
-    end
-
     it "defines callback_url" do
       expect(strategy.callback_url).to eq("http://test.localhost/auth/discourse_login/callback")
+    end
+  end
+
+  let(:hash) do
+    OmniAuth::AuthHash.new(
+      provider: "discourse_login",
+      info: {
+        "nickname" => "test_user",
+        "email" => user.email,
+        "image" => "http://example.com/avatar.png",
+        "uuid" => "12345",
+      },
+      uid: "99",
+    )
+  end
+
+  describe "after_authenticate" do
+    it "works and syncs username, email, avatar" do
+      result = authenticator.after_authenticate(hash)
+      expect(result.user).to eq(user)
+      expect(result.failed).to eq(false)
+
+      expect(result.username).to eq("test_user")
+      expect(result.email).to eq(user.email)
+
+      associated_record =
+        UserAssociatedAccount.find_by(provider_name: "discourse_login", user_id: user.id)
+
+      expect(associated_record[:info]["image"]).to eq("http://example.com/avatar.png")
+      expect(associated_record[:info]["uuid"]).to eq("12345")
     end
   end
 end

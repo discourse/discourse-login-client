@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # name: discourse-login-client
-# about: Test plugin
+# about: Test plugin for Discourse ID authentication. Currently not intended for use in production.
 # meta_topic_id: N/A
 # version: 0.0.1
 # authors: Discourse
@@ -12,6 +12,4 @@ require_relative "lib/discourse_login_client_authenticator"
 
 enabled_site_setting :discourse_login_client_enabled
 
-auth_provider title_setting: "discourse_login_client_button_title",
-              icon: "fab-discourse",
-              authenticator: DiscourseLoginClientAuthenticator.new
+auth_provider icon: "fab-discourse", authenticator: DiscourseLoginClientAuthenticator.new
