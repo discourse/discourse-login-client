@@ -7,4 +7,5 @@ en:
   js:
     login:
       discourse_login:
-        name: "Discourse Login"
+        name: "Discourse ID"
+        title: "Login with Discourse ID"
