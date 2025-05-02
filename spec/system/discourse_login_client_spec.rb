@@ -5,7 +5,6 @@ describe "discourse login client auth" do
 
   before do
     OmniAuth.config.test_mode = true
-    SiteSetting.full_page_login = true
     SiteSetting.discourse_login_client_enabled = true
     SiteSetting.discourse_login_client_id = "asdasd"
     SiteSetting.discourse_login_client_secret = "wada"
