@@ -8,6 +8,7 @@
 # url: TODO
 # required_version: 3.3.0
 
+require_relative "lib/discourse_login_client_strategy"
 require_relative "lib/discourse_login_client_authenticator"
 
 enabled_site_setting :discourse_login_client_enabled
