@@ -3,6 +3,8 @@
 class DiscourseLoginClientStrategy < ::OmniAuth::Strategies::OAuth2
   option :name, "discourse_login"
 
+  option :client_options, auth_scheme: :basic_auth
+
   def authorize_params
     super.tap { _1[:intent] = "signup" if request.params["signup"] == "true" }
   end

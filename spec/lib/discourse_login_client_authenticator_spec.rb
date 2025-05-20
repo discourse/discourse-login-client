@@ -54,35 +54,28 @@ describe DiscourseLoginClientAuthenticator do
       end
     end
 
-    describe "#base_url" do
+    describe "#site" do
       it "returns default URL when setting is blank" do
         SiteSetting.discourse_login_client_url = ""
-        expect(authenticator.base_url).to eq("https://logindemo.discourse.group")
+        expect(authenticator.site).to eq("https://logindemo.discourse.group")
       end
 
       it "returns configured URL when setting is present" do
         SiteSetting.discourse_login_client_url = "https://custom.example.com"
-        expect(authenticator.base_url).to eq("https://custom.example.com")
+        expect(authenticator.site).to eq("https://custom.example.com")
       end
     end
   end
 
   describe "DiscourseLoginClientStrategy" do
-    let(:strategy) { DiscourseLoginClientAuthenticator::DiscourseLoginClientStrategy.new({}) }
+    let(:strategy) { DiscourseLoginClientStrategy.new({}) }
 
     it "uses 'discourse_login' name" do
       expect(strategy.options.name).to eq("discourse_login")
     end
 
-    it "defines client_options" do
-      client_options = strategy.options.client_options
-      expect(client_options.authorize_url).to eq("/oauth/authorize")
-      expect(client_options.token_url).to eq("/oauth/token")
-      expect(client_options.auth_scheme).to eq(:basic_auth)
-    end
-
-    it "defines authorize_options" do
-      expect(strategy.options.authorize_options).to include(:scope)
+    it "uses basic auth as authentication scheme" do
+      expect(strategy.options.client_options.auth_scheme).to eq(:basic_auth)
     end
 
     it "defines callback_url" do

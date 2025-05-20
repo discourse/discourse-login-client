@@ -10,9 +10,15 @@ class DiscourseLoginClientAuthenticator < Auth::ManagedAuthenticator
     "discourse_login"
   end
 
-  def register_middleware(omniauth)
-    site = SiteSetting.discourse_login_client_url.presence || "https://logindemo.discourse.group"
+  def display_name
+    "Discourse ID"
+  end
 
+  def site
+    SiteSetting.discourse_login_client_url.presence || "https://logindemo.discourse.group"
+  end
+
+  def register_middleware(omniauth)
     omniauth.provider DiscourseLoginClientStrategy,
                       scope: "read",
                       setup: ->(env) do
