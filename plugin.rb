@@ -2,10 +2,8 @@
 
 # name: discourse-login-client
 # about: Test plugin for Discourse ID authentication. Currently not intended for use in production.
-# meta_topic_id: N/A
 # version: 0.0.1
 # authors: Discourse
-# url: TODO
 # required_version: 3.3.0
 
 require_relative "lib/discourse_login_client_strategy"
@@ -16,6 +14,8 @@ enabled_site_setting :discourse_login_client_enabled
 auth_provider icon: "fab-discourse", authenticator: DiscourseLoginClientAuthenticator.new
 
 after_initialize do
+  require_relative "app/controllers/discourse_login_client/auth_controller"
+
   on_enabled_change do |_, enabled|
     if enabled
       SiteSetting.set(:auth_skip_create_confirm, true)
@@ -24,5 +24,9 @@ after_initialize do
       SiteSetting.set(:auth_skip_create_confirm, false)
       SiteSetting.hidden_settings_provider.remove_hidden(:auth_skip_create_confirm)
     end
+  end
+
+  Discourse::Application.routes.append do
+    post "/auth/discourse_login/revoke" => "discourse_login_client/auth#revoke"
   end
 end
