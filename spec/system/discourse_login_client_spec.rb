@@ -27,7 +27,7 @@ describe "discourse login client auth" do
   let(:signup_form) { PageObjects::Pages::Signup.new }
 
   context "when user does not exist" do
-    it "skips the signup form & create the account directly" do
+    it "skips the signup form and creates the account directly" do
       visit("/")
       signup_form.open.click_social_button("discourse_login")
       expect(page).to have_css(".header-dropdown-toggle.current-user")
