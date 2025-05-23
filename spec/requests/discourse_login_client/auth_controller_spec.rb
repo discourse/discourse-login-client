@@ -3,11 +3,13 @@
 RSpec.describe ::DiscourseLoginClient::AuthController do
   let(:client_id) { SiteSetting.discourse_login_client_id }
   let(:hashed_secret) { Digest::SHA256.hexdigest(SiteSetting.discourse_login_client_secret) }
-  let(:user_id) { SecureRandom.hex }
+  let(:identifier) { SecureRandom.hex }
   let(:provider_name) { "discourse_login" }
 
   let!(:user) { Fabricate(:user) }
-  let!(:user_associated_account) { Fabricate(:user_associated_account, user:, provider_name:, provider_uid: user_id) }
+  let!(:user_associated_account) do
+    Fabricate(:user_associated_account, user:, provider_name:, provider_uid: identifier)
+  end
 
   before do
     SiteSetting.discourse_login_client_enabled = true
@@ -28,10 +30,10 @@ RSpec.describe ::DiscourseLoginClient::AuthController do
           OpenSSL::HMAC.hexdigest(
             "sha256",
             hashed_secret,
-            "#{client_id}:#{user_id}:#{timestamp}",
+            "#{client_id}:#{identifier}:#{timestamp}",
           )
 
-        post "/auth/discourse_login/revoke.json", params: { signature:, user_id:, timestamp: }
+        post "/auth/discourse_login/revoke.json", params: { signature:, identifier:, timestamp: }
 
         expect(response.status).to eq(200)
         expect(response.parsed_body["success"]).to eq(true)
@@ -45,12 +47,12 @@ RSpec.describe ::DiscourseLoginClient::AuthController do
         timestamp = Time.now.to_i
         signature = SecureRandom.hex
 
-        post "/auth/discourse_login/revoke.json", params: { signature:, user_id:, timestamp: }
+        post "/auth/discourse_login/revoke.json", params: { signature:, identifier:, timestamp: }
 
         expect(response.status).to eq(400)
         expect(response.parsed_body["error"]).to eq("Invalid request")
 
-        post "/auth/discourse_login/revoke.json", params: { signature:, user_id:, timestamp: }
+        post "/auth/discourse_login/revoke.json", params: { signature:, identifier:, timestamp: }
 
         expect(response.status).to eq(400)
       end
@@ -61,26 +63,26 @@ RSpec.describe ::DiscourseLoginClient::AuthController do
           OpenSSL::HMAC.hexdigest(
             "sha256",
             hashed_secret,
-            "#{client_id}:#{user_id}:#{timestamp}",
+            "#{client_id}:#{identifier}:#{timestamp}",
           )
 
-        post "/auth/discourse_login/revoke.json", params: { signature:, user_id:, timestamp: }
+        post "/auth/discourse_login/revoke.json", params: { signature:, identifier:, timestamp: }
 
         expect(response.status).to eq(400)
         expect(response.parsed_body["error"]).to eq("Invalid request")
       end
 
       it "returns 400 when user_id is not found" do
-        user_id = "non_existent_user_id"
+        identifier = "non_existent_user_id"
         timestamp = Time.now.to_i
         signature =
           OpenSSL::HMAC.hexdigest(
             "sha256",
             hashed_secret,
-            "#{client_id}:#{user_id}:#{timestamp}",
+            "#{client_id}:#{identifier}:#{timestamp}",
           )
 
-        post "/auth/discourse_login/revoke.json", params: { signature:, user_id:, timestamp: }
+        post "/auth/discourse_login/revoke.json", params: { signature:, identifier:, timestamp: }
 
         expect(response.status).to eq(400)
         expect(response.parsed_body["error"]).to eq("Invalid request")
@@ -94,10 +96,10 @@ RSpec.describe ::DiscourseLoginClient::AuthController do
           OpenSSL::HMAC.hexdigest(
             "sha256",
             hashed_secret,
-            "#{client_id}:#{user_id}:#{timestamp}",
+            "#{client_id}:#{identifier}:#{timestamp}",
           )
 
-        post "/auth/discourse_login/revoke.json", params: { signature:, user_id:, timestamp: }
+        post "/auth/discourse_login/revoke.json", params: { signature:, identifier:, timestamp: }
 
         expect(response.status).to eq(400)
         expect(response.parsed_body["error"]).to eq("Invalid request")
@@ -105,7 +107,7 @@ RSpec.describe ::DiscourseLoginClient::AuthController do
         SiteSetting.discourse_login_client_id = SecureRandom.hex
         SiteSetting.discourse_login_client_secret = ""
 
-        post "/auth/discourse_login/revoke.json", params: { signature:, user_id:, timestamp: }
+        post "/auth/discourse_login/revoke.json", params: { signature:, identifier:, timestamp: }
 
         expect(response.status).to eq(400)
         expect(response.parsed_body["error"]).to eq("Invalid request")
@@ -116,16 +118,16 @@ RSpec.describe ::DiscourseLoginClient::AuthController do
       before { RateLimiter.enable }
 
       it "rate limits after 5 requests per minute for the same user_id" do
-        user_id = "non_existent_user_id"
+        identifier = "non_existent_user_id"
         timestamp = Time.now.to_i
         signature = SecureRandom.hex
 
         5.times do
-          post "/auth/discourse_login/revoke.json", params: { signature:, user_id:, timestamp: }
+          post "/auth/discourse_login/revoke.json", params: { signature:, identifier:, timestamp: }
           expect(response.status).to eq(400)
         end
 
-        post "/auth/discourse_login/revoke.json", params: { signature:, user_id:, timestamp: }
+        post "/auth/discourse_login/revoke.json", params: { signature:, identifier:, timestamp: }
         expect(response.status).to eq(429)
       end
     end
