@@ -24,47 +24,23 @@ describe "discourse login client auth" do
 
   after { reset_omniauth_config(:discourse_login) }
 
-  let(:login_form) { PageObjects::Pages::Login.new }
   let(:signup_form) { PageObjects::Pages::Signup.new }
 
   context "when user does not exist" do
-    it "fills the signup form" do
+    it "skips the signup form & create the account directly" do
       visit("/")
-
       signup_form.open.click_social_button("discourse_login")
-      expect(signup_form).to be_open
-      expect(signup_form).to have_no_password_input
-      expect(signup_form).to have_valid_username
-      expect(signup_form).to have_valid_email
-      signup_form.click_create_account
       expect(page).to have_css(".header-dropdown-toggle.current-user")
-    end
-
-    context "when skipping the signup form" do
-      before { SiteSetting.auth_skip_create_confirm = true }
-
-      it "creates the account directly" do
-        visit("/")
-
-        signup_form.open.click_social_button("discourse_login")
-        expect(page).to have_css(".header-dropdown-toggle.current-user")
-      end
     end
   end
 
   context "when user exists" do
     fab!(:user) do
-      Fabricate(
-        :user,
-        email: OmniauthHelpers::EMAIL,
-        username: OmniauthHelpers::USERNAME,
-        password: "supersecurepassword",
-      )
+      Fabricate(:user, email: OmniauthHelpers::EMAIL, username: OmniauthHelpers::USERNAME)
     end
 
     it "logs in user" do
       visit("/")
-
       signup_form.open.click_social_button("discourse_login")
       expect(page).to have_css(".header-dropdown-toggle.current-user")
     end
