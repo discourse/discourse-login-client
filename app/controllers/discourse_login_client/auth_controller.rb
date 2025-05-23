@@ -16,7 +16,7 @@ module DiscourseLoginClient
       time_diff = (Time.now.to_i - timestamp.to_i).abs
       if time_diff > 5.minutes.to_i
         if SiteSetting.discourse_login_debug_auth
-          Rails.logger.warn("Expired timestamp in discourse_login revoke: #{time_diff} seconds old")
+          Rails.logger.warn("Expired timestamp in discourse_login_client revoke: #{time_diff} seconds old")
         end
         return render_invalid_request
       end
