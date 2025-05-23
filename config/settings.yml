@@ -9,7 +9,7 @@ plugins:
     default: ""
     client: false
     secret: true
-  discourse_login_debug_auth:
+  discourse_login_client_verbose_logging:
     default: false
     client: false
   discourse_login_client_url:
