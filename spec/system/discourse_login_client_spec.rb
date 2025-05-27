@@ -45,4 +45,38 @@ describe "discourse login client auth" do
       expect(page).to have_css(".header-dropdown-toggle.current-user")
     end
   end
+
+  context "when discourse_login is the only external login method" do
+    before do
+      SiteSetting.enable_discord_logins = false
+      SiteSetting.enable_facebook_logins = false
+      SiteSetting.enable_github_logins = false
+      SiteSetting.enable_google_oauth2_logins = false
+      SiteSetting.enable_linkedin_oidc_logins = false
+      SiteSetting.enable_local_logins = false
+      SiteSetting.enable_twitter_logins = false
+    end
+
+    it "hides regular auth buttons and shows continue with discourse id button" do
+      visit("/")
+
+      expect(page).not_to have_css(".auth-buttons .sign-up-button")
+      expect(page).not_to have_css(".auth-buttons .login-button")
+
+      expect(page).to have_css(
+        ".continue-with-discourse",
+        text: I18n.t("js.discourse_login.continue_with"),
+      )
+    end
+
+    it "continues with discourse login when button is clicked" do
+      visit("/")
+
+      page.find(".continue-with-discourse").click
+
+      expect(page).to have_css(".header-dropdown-toggle.current-user")
+
+      expect(page).not_to have_css(".continue-with-discourse")
+    end
+  end
 end

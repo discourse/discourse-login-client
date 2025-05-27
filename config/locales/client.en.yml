@@ -9,3 +9,5 @@ en:
       discourse_login:
         name: "Discourse ID"
         title: "Login with Discourse ID"
+    discourse_login:
+      continue_with: "Continue with Discourse ID"
