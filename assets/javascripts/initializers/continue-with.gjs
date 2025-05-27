@@ -6,7 +6,7 @@ export default {
     const { isOnlyOneExternalLoginMethod, externalLoginMethods, singleExternalLogin } = container.lookup("service:login");
     const onlyDiscourseId = isOnlyOneExternalLoginMethod && externalLoginMethods[0].name === "discourse_login";
 
-    withPluginApi("2.1.1", ({ headerButtons }) => {
+    withPluginApi(({ headerButtons }) => {
       if (onlyDiscourseId) {
         const currentUser = container.lookup("service:current-user");
 
