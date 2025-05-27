@@ -14,7 +14,7 @@ export default {
         headerButtons.add("continue-with", <template>
           {{#unless currentUser}}
             <DButton
-              class="continue-with-discourse"
+              class="continue-with-discourse btn-primary"
               @icon="fab-discourse"
               @label="discourse_login.continue_with"
               @action={{singleExternalLogin}}
