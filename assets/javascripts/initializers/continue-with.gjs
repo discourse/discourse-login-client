@@ -6,9 +6,9 @@ export default {
     const { isOnlyOneExternalLoginMethod, externalLoginMethods, singleExternalLogin } = container.lookup("service:login");
     const onlyDiscourseId = isOnlyOneExternalLoginMethod && externalLoginMethods[0].name === "discourse_login";
 
-    withPluginApi(({ headerButtons }) => {
+    withPluginApi(({ headerButtons, getCurrentUser }) => {
       if (onlyDiscourseId) {
-        const currentUser = container.lookup("service:current-user");
+        const currentUser = getCurrentUser();
 
         headerButtons.delete("auth");
         headerButtons.add("continue-with", <template>
