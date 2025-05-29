@@ -15,7 +15,7 @@ class DiscourseLoginClientAuthenticator < Auth::ManagedAuthenticator
   end
 
   def site
-    SiteSetting.discourse_login_client_url.presence || "https://logindemo.discourse.group"
+    SiteSetting.discourse_login_client_url.presence || "https://id.discourse.com"
   end
 
   def register_middleware(omniauth)

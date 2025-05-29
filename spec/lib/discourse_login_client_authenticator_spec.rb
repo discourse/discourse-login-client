@@ -57,7 +57,7 @@ describe DiscourseLoginClientAuthenticator do
     describe "#site" do
       it "returns default URL when setting is blank" do
         SiteSetting.discourse_login_client_url = ""
-        expect(authenticator.site).to eq("https://logindemo.discourse.group")
+        expect(authenticator.site).to eq("https://id.discourse.com")
       end
 
       it "returns configured URL when setting is present" do
