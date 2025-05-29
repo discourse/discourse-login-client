@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@discourse/lint-configs':
-        specifier: 2.20.0
-        version: 2.20.0(ember-template-lint@7.7.0(@babel/core@7.27.3))(eslint@9.27.0)(postcss@8.5.3)(prettier@3.5.3)(stylelint@16.19.1(typescript@5.8.3))
+        specifier: 2.21.0
+        version: 2.21.0(ember-template-lint@7.7.0(@babel/core@7.27.3))(eslint@9.27.0)(postcss@8.5.3)(prettier@3.5.3)(stylelint@16.19.1(typescript@5.8.3))
       ember-template-lint:
         specifier: 7.7.0
         version: 7.7.0(@babel/core@7.27.3)
@@ -179,8 +179,8 @@ packages:
     peerDependencies:
       postcss-selector-parser: ^7.0.0
 
-  '@discourse/lint-configs@2.20.0':
-    resolution: {integrity: sha512-1pbwuV7rGKD38UGp51fbt6wAUDgAJ2AYOdICEYsJvp2Kmfs+uxhyPzXQMLceiXg2j9O8f0MDWhTdzGxIVRWPvw==}
+  '@discourse/lint-configs@2.21.0':
+    resolution: {integrity: sha512-QqW6Kr2Kk32AujDj4+esgY3IY/qk9ffJb9ChrHzb/cHbAqUaEEoDKoy/zBQhNC3QrVLLvRCmL9E77gOSrTohJg==}
     peerDependencies:
       ember-template-lint: 7.7.0
       eslint: 9.27.0
@@ -2062,7 +2062,7 @@ snapshots:
     dependencies:
       postcss-selector-parser: 7.1.0
 
-  '@discourse/lint-configs@2.20.0(ember-template-lint@7.7.0(@babel/core@7.27.3))(eslint@9.27.0)(postcss@8.5.3)(prettier@3.5.3)(stylelint@16.19.1(typescript@5.8.3))':
+  '@discourse/lint-configs@2.21.0(ember-template-lint@7.7.0(@babel/core@7.27.3))(eslint@9.27.0)(postcss@8.5.3)(prettier@3.5.3)(stylelint@16.19.1(typescript@5.8.3))':
     dependencies:
       '@babel/core': 7.27.3
       '@babel/eslint-parser': 7.27.1(@babel/core@7.27.3)(eslint@9.27.0)
