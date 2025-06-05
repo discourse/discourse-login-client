@@ -16,16 +16,6 @@ auth_provider icon: "fab-discourse", authenticator: DiscourseLoginClientAuthenti
 after_initialize do
   require_relative "app/controllers/discourse_login_client/auth_controller"
 
-  on_enabled_change do |_, enabled|
-    if enabled
-      SiteSetting.set(:auth_skip_create_confirm, true)
-      SiteSetting.hidden_settings_provider.add_hidden(:auth_skip_create_confirm)
-    else
-      SiteSetting.set(:auth_skip_create_confirm, false)
-      SiteSetting.hidden_settings_provider.remove_hidden(:auth_skip_create_confirm)
-    end
-  end
-
   Discourse::Application.routes.append do
     post "/auth/discourse_login/revoke" => "discourse_login_client/auth#revoke"
   end
